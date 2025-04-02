@@ -1,0 +1,68 @@
+Task 1:Iris data set is used:
+# Import necessary libraries
+import pandas as pd
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+iris = load_iris()
+df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+df['species'] = iris.target
+df['species'] = df['species'].map({0: 'setosa', 1: 'versicolor', 2: 'virginica'})
+
+First few rows of dataset:
+print(df.head())
+
+Checking data types and missing values:
+# Check data types and missing values
+print(df.info())
+print(df.isnull().sum())
+
+Task 2:Basic data analysis results:
+# Group by species and calculate mean for numerical columns
+grouped_data = df.groupby('species').mean()
+print(grouped_data)
+
+Task 3: Data Visualization
+Bar Chart - Comparison Across Categories:
+import seaborn as sns
+
+# Bar chart for average petal length per species
+plt.figure(figsize=(8,6))
+sns.barplot(x='species', y='petal length (cm)', data=df)
+plt.title('Average Petal Length Per Species')
+plt.xlabel('Species')
+plt.ylabel('Petal Length (cm)')
+plt.show()
+
+
+Scatter Plot - Relationship Between Two Numerical Columns
+# Scatter plot for relationship between sepal length and petal length
+plt.figure(figsize=(8,6))
+sns.scatterplot(x='sepal length (cm)', y='petal length (cm)', hue='species', data=df)
+plt.title('Sepal Length vs Petal Length')
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Petal Length (cm)')
+plt.legend(title='Species')
+plt.show()
+
+Line Chart - Trends Over Timeimport matplotlib.pyplot as plt
+
+# Simulate a time-series trend with cumulative averages of sepal lengths
+df['cumulative_sepal_length'] = df['sepal length (cm)'].expanding().mean()
+
+plt.figure(figsize=(10,6))
+plt.plot(df.index, df['cumulative_sepal_length'], label='Cumulative Sepal Length')
+plt.title('Cumulative Sepal Length Over Index')
+plt.xlabel('Index')
+plt.ylabel('Cumulative Sepal Length')
+plt.legend()
+plt.show()
+
+Histogram - Distribution of Numerical Column
+# Histogram for distribution of sepal width
+plt.figure(figsize=(8,6))
+sns.histplot(df['sepal width (cm)'], kde=True, bins=15)
+plt.title('Distribution of Sepal Width')
+plt.xlabel('Sepal Width (cm)')
+plt.ylabel('Frequency')
+plt.show()
